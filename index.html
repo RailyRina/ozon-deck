@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta name="robots" content="noindex,nofollow">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Презентация Rina Abdrakhmanova</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Manrope:wght@400;700&family=Cormorant+Garamond:ital,wght@1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F0F0F0; --panel:#EAEAEA; --dark:#141414; --gray:#6E6E6E; --red:#E0453A;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden}
+  body{font-family:'PP Neue Montreal','Neue Montreal','Inter',system-ui,sans-serif;background:var(--bg);color:#000;
+       -webkit-font-smoothing:antialiased;font-size:20px;line-height:1.1}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+  /* ---------- 1440x896 stage, scaled to the window ---------- */
+  #stage{position:absolute;left:50%;top:50%;width:1440px;height:896px;transform-origin:center center;background:var(--bg);overflow:hidden}
+  .grid{position:absolute;inset:0;pointer-events:none}
+  .grid i{position:absolute;background:rgba(0,0,0,.07)}
+  .grid .v{top:0;bottom:0;width:1px}.grid .h{left:0;right:0;height:1px}
+
+  .slide{position:absolute;inset:0;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .4s ease,visibility 0s .4s}
+  .slide.active{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .4s ease}
+  .rise{opacity:0;transform:translateY(18px)}
+  .slide[data-noanim] .rise,.slide[data-noanim].active .rise{opacity:1;transform:none;transition:none}
+  .slide.active .rise{opacity:1;transform:none;transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1);transition-delay:calc(var(--i,0)*90ms + 100ms)}
+
+  /* ---------- left column ---------- */
+  .left{position:absolute;left:64px;top:67px;bottom:64px;width:480px;display:flex;flex-direction:column}
+  .head h1{font-size:32px;font-weight:500;line-height:1.1;width:479px}
+  .head p{margin-top:16px;width:389px}
+  .mid{position:absolute;left:0;top:173px;width:389px}
+  .lab{color:var(--gray);margin-bottom:14px}
+  ul.b{list-style:none}
+  ul.b li{position:relative;padding-left:20px;margin-bottom:12px}
+  ul.b li::before{content:'•';position:absolute;left:4px}
+  .r{color:var(--red)}.g{font-weight:400}
+  .cards{margin-top:auto;display:flex;flex-direction:column;gap:12px;width:416px}
+  .card{background:var(--panel);border-radius:8px;padding:22px 20px;display:flex;flex-direction:column;gap:18px}
+  .card .k{color:var(--gray)}.card .v{margin-top:12px}
+
+  /* ---------- right panel ---------- */
+  .panel{position:absolute;left:556px;top:67px;width:820px;height:765px;background:var(--panel);border-radius:8px;overflow:hidden}
+  .co{position:absolute;width:190px;color:#fff;font-size:17px;line-height:1.25;padding:10px 14px;border-radius:7px;background:var(--dark)}
+  .co.red{background:var(--red)}
+  .panel .co[style*="top:566px"]{height:54px;display:flex;align-items:center}
+  .hint{position:absolute;left:0;right:0;text-align:center;color:var(--gray);font-size:17px}
+  .replay{position:absolute;right:20px;bottom:18px;background:var(--dark);color:#fff;border-radius:999px;padding:9px 16px;font-size:16px;display:flex;gap:8px;align-items:center}
+  .replay:hover{background:#333}
+
+  /* ---------- slide 1 ---------- */
+  .s1-name{position:absolute;left:64px;top:67px;font-size:48px;line-height:1.1;font-weight:500;width:479px}
+  .s1-name i{font-family:'PP Editorial Old','Cormorant Garamond',Georgia,'Times New Roman',serif;font-weight:400}
+  .s1-block{position:absolute;left:64px;width:420px}
+  .s1-block .lab{margin-bottom:12px}
+  .s1-block p{width:389px}
+
+  /* ---------- notifications: old inbox ---------- */
+  .old{position:absolute;left:246px;top:43px;width:328px;height:679px;border-radius:38px;border:2px solid #000;overflow:hidden;background:#F2F2F2}
+  .old img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+
+  /* ---------- notifications: improved inbox, exact geometry from the CloudCore file (393x812) ---------- */
+  .pw{position:absolute;left:241px;top:33px;width:338px;height:698px}
+  .phone{position:absolute;left:0;top:0;width:393px;height:812px;transform:scale(.86);transform-origin:top left;background:#F2F2F2;border-radius:44px;border:2px solid #000;overflow:hidden;font-family:'Manrope','Inter',system-ui,sans-serif;color:#24232D;font-size:16px}
+  .phone *{box-sizing:border-box}
+  .ph-top{position:absolute;left:0;top:0;width:393px;height:111px;background:#fff}
+  .ph-time{position:absolute;left:0;top:18px;width:138px;text-align:center;font:600 17px/22px -apple-system,'SF Pro Text','Inter',system-ui,sans-serif;color:#24232D}
+  .ph-levels{position:absolute;left:250px;top:0;width:143px;height:54px}
+  .ph-av{position:absolute;left:16px;top:63px;width:32px;height:32px;border-radius:32px;background:#F2F2F2;display:flex;align-items:center;justify-content:center}
+  .ph-pill{position:absolute;left:60px;top:63px;width:138px;height:34px;border-radius:32px;background:#F2F2F2;display:flex;align-items:center;padding:0 10px;gap:0;font-weight:400;font-size:14px;line-height:1.4;white-space:nowrap}
+  .ph-pill svg{margin-left:auto}
+  .bell{position:absolute;left:353px;top:68px;width:24px;height:24px}
+  .badge{position:absolute;left:372px;top:63px;width:8px;height:8px;border-radius:32px;background:#DF3B35;transform:scale(0);transition:transform .3s cubic-bezier(.3,1.6,.5,1);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0}
+  .badge.dot{transform:scale(1)}
+  .badge.on{transform:scale(1);width:20px;height:20px;left:366px;top:57px;font-size:12px;line-height:1.2;border-radius:99px;transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
+  .badge.pop,.ib.pop{animation:pop .4s ease}
+  @keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.45)}100%{transform:scale(1)}}
+  .ph-title{position:absolute;left:0;top:111px;width:393px;height:48px}
+  .ph-title svg{position:absolute;left:16px;top:16px}
+  .ph-title span{position:absolute;left:0;right:0;top:16px;text-align:center;font-weight:400;font-size:16px;line-height:24px}
+  .card12{position:absolute;left:16px;width:361px;background:#fff;border-radius:12px}
+  .ico{flex:none;width:32px;height:32px;border-radius:32px;display:flex;align-items:center;justify-content:center}
+  .ico svg{width:20px;height:20px}
+  .irow{position:absolute;left:0;width:361px;height:72px}
+  .irow .ico{position:absolute;left:16px;top:20px}
+  .irow .tt{position:absolute;left:60px;top:16px;width:230px;font-weight:700;font-size:16px;line-height:22px;white-space:nowrap}
+  .irow .pv{position:absolute;left:60px;top:40px;width:230px;font-weight:400;font-size:12px;line-height:16px;color:#7C7B81;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:16px}
+  .irow .tm{position:absolute;right:16px;top:16px;font-weight:400;font-size:12px;line-height:16px;color:#7C7B81;text-align:right;font-variant-numeric:tabular-nums;min-width:30px}
+  .irow .tm.solo{top:28px}
+  .irow .ib{position:absolute;right:16px;top:36px;width:20px;height:20px;border-radius:99px;background:#DF3B35;color:#fff;font-weight:700;font-size:12px;line-height:1.2;display:flex;align-items:center;justify-content:center;font-style:normal;transform:scale(0);transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
+  .irow .ib.on{transform:scale(1)}
+  .sep{position:absolute;left:16px;width:329px;height:1px;background:#ECECEE}
+  .rl{transition:transform .22s ease,opacity .22s ease}
+  .rl.out{transform:translateY(-6px);opacity:0}
+  .rl.in{transform:translateY(6px);opacity:0;transition:none}
+  .flash{animation:flash .5s ease}
+  @keyframes flash{0%{opacity:.25}100%{opacity:1}}
+  .home{position:absolute;left:130px;top:799px;width:134px;height:5px;border-radius:100px;background:#000}
+  .toast{position:absolute;left:12px;right:12px;top:8px;z-index:5;background:#fff;border-radius:18px;padding:12px 14px;display:flex;gap:12px;align-items:center;box-shadow:0 10px 30px rgba(0,0,0,.22);transform:translateY(-130%);transition:transform .55s cubic-bezier(.2,1.1,.3,1)}
+  .toast.show{transform:translateY(0)}
+  .toast b{display:block;font-weight:700;font-size:14px;line-height:1.3}
+  .toast span{display:block;font-weight:400;font-size:12px;color:#7C7B81;line-height:1.3}
+  .toast em{margin-left:auto;font-style:normal;font-size:11px;color:#9a9a9a;align-self:flex-start}
+
+  /* ---------- KYC ---------- */
+  .role{position:absolute;width:383px;height:355px;background:#fff;border-radius:8px}
+  .role .a,.role .c{position:absolute;left:24px;font-size:17px;color:var(--gray)}
+  .role .a{top:24px}.role .c{bottom:24px}
+  .role .q{position:absolute;left:24px;right:24px;top:130px;font-size:28px;font-weight:500;line-height:1.15}
+  .role.dk{background:var(--dark);color:#fff}.role.dk .a,.role.dk .c{color:#9A9A9A}
+  .proto{position:absolute;left:20px;top:139px;width:780px;height:487.5px;background:#fff;border-radius:12px;overflow:hidden}
+  .proto iframe{width:1440px;height:900px;border:0;display:block;transform:scale(.54167);transform-origin:0 0}
+
+  .mock{position:absolute;width:736px;height:460px;border:1px solid #000;border-radius:22px;overflow:hidden;background:#fff}
+  .mock img{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover}
+  .mock .mask{position:absolute;left:2.9%;top:2.2%;width:10.4%;height:4.8%;background:#fff}
+  .mock .mark{position:absolute;left:3.3%;top:2.7%;width:2.36%;height:3.78%;background:#141414;border-radius:20%}
+  .mock iframe{position:absolute;left:0;top:0;width:1440px;height:900px;border:0;display:none;transform:scale(.5097);transform-origin:0 0;background:#fff}
+  .mock.live iframe{display:block}
+  .mock.live img,.mock.live .mask,.mock.live .mark{display:none}
+  /* ---------- bars ---------- */
+  .pb-row{position:absolute;left:0;right:0;top:122px;display:flex;justify-content:center;gap:16px}
+  .pb{height:520px;border:1px solid #000;border-radius:30px;overflow:hidden;background:#000}
+  .pb img{height:100%;width:auto;display:block}
+  .cover{position:absolute;inset:0}.cover img{width:100%;height:100%;object-fit:cover;display:block}
+  .tile{position:absolute;width:383px;height:171px;background:#fff;border-radius:8px;overflow:hidden}
+  .tile span{position:absolute;left:20px;bottom:18px;font-size:17px}
+  .tile .gl{position:absolute;left:0;right:0;top:0;bottom:46px;display:flex;align-items:center;justify-content:center}
+  .g1 .o{position:absolute;width:84px;height:84px;animation:spin 6s linear infinite}
+  .g1 .o i{position:absolute;left:50%;top:-6px;margin-left:-6px;width:12px;height:12px;border-radius:2px;background:var(--gray)}
+  .g1 .s{width:52px;height:52px;border-radius:3px;background:var(--dark);animation:breathe 3.2s ease-in-out infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes breathe{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(.84) rotate(10deg)}}
+  .g2{flex-direction:column;gap:9px;align-items:flex-start!important;padding-left:136px;justify-content:center}
+  .g2 b{height:12px;border-radius:2px;background:var(--dark);opacity:0;animation:rise2 2.8s cubic-bezier(.22,1,.36,1) infinite}
+  .g2 b:nth-child(1){width:110px}.g2 b:nth-child(2){width:76px;background:var(--gray);animation-delay:.14s}.g2 b:nth-child(3){width:44px;background:#fff;box-shadow:inset 0 0 0 1px #999;animation-delay:.28s}
+  @keyframes rise2{0%{opacity:0;transform:translateY(14px)}25%,75%{opacity:1;transform:none}100%{opacity:0}}
+  .g3 .b{width:54px;height:54px;border-radius:50%;background:var(--dark);animation:press 2.4s ease-in-out infinite;position:relative}
+  .g3 .b::after{content:'';position:absolute;inset:0;border-radius:50%;border:2px solid var(--dark);animation:ripple 2.4s ease-out infinite}
+  @keyframes press{0%,60%,100%{transform:scale(1)}20%{transform:scale(.8)}}
+  @keyframes ripple{0%,18%{transform:scale(1);opacity:0}20%{opacity:.6}70%,100%{transform:scale(2.4);opacity:0}}
+  .g4 i{position:absolute;width:30px;height:30px;border-radius:50%}
+  .g4 i:nth-child(1){background:var(--dark);animation:mag1 3s ease-in-out infinite}
+  .g4 i:nth-child(2){background:var(--gray);animation:mag2 3s ease-in-out infinite}
+  @keyframes mag1{0%,100%{transform:translateX(-62px)}50%{transform:translateX(-12px)}}
+  @keyframes mag2{0%,100%{transform:translateX(62px)}50%{transform:translateX(12px)}}
+  .g5 .sw{width:92px;height:46px;border-radius:23px;background:var(--gray);position:relative;animation:swbg 3s ease-in-out infinite}
+  .g5 .sw::after{content:'';position:absolute;top:5px;left:5px;width:36px;height:36px;border-radius:50%;background:#fff;animation:swk 3s ease-in-out infinite}
+  @keyframes swk{0%,35%{transform:translateX(0)}50%,85%{transform:translateX(46px)}100%{transform:translateX(0)}}
+  @keyframes swbg{0%,35%{background:#9a9a9a}50%,85%{background:var(--dark)}100%{background:#9a9a9a}}
+  .g6 .sl{width:140px;height:62px;position:relative;overflow:hidden}
+  .g6 .sl b{position:absolute;top:0;width:100%;height:100%;border-radius:4px;background:var(--dark)}
+  .g6 .sl b:nth-child(2){background:var(--gray);transform:translateX(110%)}
+  .g6 .sl b:nth-child(1){animation:out 3s ease-in-out infinite}
+  .g6 .sl b:nth-child(2){animation:inn 3s ease-in-out infinite}
+  @keyframes out{0%,40%{transform:translateX(0)}60%,100%{transform:translateX(-110%)}}
+  @keyframes inn{0%,40%{transform:translateX(110%)}60%,100%{transform:translateX(0)}}
+  .g7 .d{width:22px;height:22px;border-radius:50%;background:var(--dark);position:relative}
+  .g7 .d::before,.g7 .d::after{content:'';position:absolute;inset:-10px;border-radius:50%;border:2px solid var(--dark);animation:ring 2.2s ease-out infinite}
+  .g7 .d::after{animation-delay:1.1s}
+  @keyframes ring{0%{transform:scale(.6);opacity:.8}100%{transform:scale(3);opacity:0}}
+  .g8 .pin{width:30px;height:30px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--dark);position:relative;animation:drop 2.4s cubic-bezier(.3,0,.6,1) infinite}
+  .g8 .pin::after{content:'';position:absolute;left:10px;top:10px;width:10px;height:10px;border-radius:50%;background:#fff}
+  .g8 .sh{position:absolute;bottom:22px;width:34px;height:7px;border-radius:50%;background:rgba(0,0,0,.18);animation:shd 2.4s ease-in infinite}
+  @keyframes drop{0%{transform:translateY(-70px) rotate(-45deg);opacity:0}15%{opacity:1}45%{transform:translateY(0) rotate(-45deg)}55%{transform:translateY(-16px) rotate(-45deg)}65%,100%{transform:translateY(0) rotate(-45deg)}}
+  @keyframes shd{0%{transform:scale(0)}45%,65%,100%{transform:scale(1)}55%{transform:scale(.6)}}
+  .spin{position:absolute;left:222px;top:48px;width:376px;height:669px;border-radius:28px;overflow:hidden;background:none}
+  .spin iframe{width:470px;height:836px;border:0;display:block;transform:scale(.8);transform-origin:0 0}
+
+  .sl{position:absolute;inset:0;transition:opacity .35s ease}
+  .sl.off{opacity:0;pointer-events:none;visibility:hidden}
+  .acard{position:absolute;width:383px;height:335px;background:#141414;border-radius:8px;overflow:hidden}
+  .acard .at{position:absolute;left:24px;top:22px;color:#fff;font-size:18px;line-height:1.2;z-index:2}
+  .acard .av{position:absolute;left:54px;top:50px;width:275px;height:284px;overflow:hidden}
+  .acard.stars .av{left:0;top:0;width:383px;height:335px}
+  .acard.stars iframe{width:383px;height:335px;transform:none}
+  .acard.heart .av,.acard.cap .av{left:0;top:0;width:383px;height:335px}
+  .acard.heart iframe{transform:translate(-17.6px,-48.9px) scale(.8075)}
+  .acard.cap iframe{transform:translate(-73.2px,-106.4px) scale(1.02)}
+  .acard.pin .av{left:0;top:0;width:383px;height:335px}
+  .acard.pin iframe{transform:translate(-2.6px,-52.5px) scale(.75)}
+  .acard.pin .at::before{content:'';position:absolute;left:-24px;right:-24px;top:-22px;bottom:-34px;z-index:-1;pointer-events:none;background:linear-gradient(180deg,#141414 0%,rgba(20,20,20,.92) 40%,rgba(20,20,20,0) 100%)}
+  .acard.pin .at{left:24px;right:24px;text-shadow:0 1px 10px #000}
+  .acard iframe{width:518px;height:536px;border:0;display:block;transform:scale(.53);transform-origin:0 0;background:transparent}
+  .sl-nav{position:absolute;right:16px;bottom:12px;z-index:5;display:flex;align-items:center;gap:4px;background:#141414;color:#fff;border-radius:999px;padding:4px 6px;font-size:15px}
+  .sl-nav button{width:30px;height:30px;border-radius:50%;font-size:20px;line-height:1;color:#fff}
+  .sl-nav button:hover{background:rgba(255,255,255,.16)}
+  .sl-nav span{min-width:42px;text-align:center;font-variant-numeric:tabular-nums}
+  .intro-pic{position:absolute;left:557px;top:68px;width:820px;height:760px;border-radius:13px;overflow:hidden;background:#EAEAEA}
+  .intro-pic img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.02)}
+  #skybg{position:fixed;inset:0;z-index:0;background:#3A8591 url(assets/ozon/sky.jpg) center/cover no-repeat;opacity:0;transition:opacity .45s ease;pointer-events:none}
+  body.skyon #skybg{opacity:1}
+  #stage{z-index:1;transition:background-color .45s ease}
+  body.skyon #stage{background:transparent}
+  body.skyon #stage>.grid{opacity:0}
+  .s-sky{overflow:hidden}
+  .s-sky .sky,.s-sky .grid{display:none}
+  .sky{position:absolute;left:-319px;top:-62px;width:2016px;height:1129px;background:url(assets/ozon/sky.jpg) 0 0/100% 100% no-repeat}
+  .big{position:absolute;left:0;width:1440px;text-align:center;color:#fff;font-size:48px;line-height:1.1;font-weight:500}
+  .big.w{left:298px;width:844px}
+  .big em{font-family:'PP Editorial Old','Cormorant Garamond',Georgia,'Times New Roman',serif;font-style:italic;font-weight:500;font-size:70px;line-height:1}
+  .cat{position:absolute;left:830px;top:602px;width:69px;height:72px;border-radius:50%;overflow:hidden}
+  .cat img{width:100%;height:100%;object-fit:cover;display:block}
+  .thanks-title{position:absolute;left:0;width:1440px;top:117px;text-align:center;font-size:48px;line-height:1.1;font-weight:500}
+  .thanks-pic{position:absolute;left:334px;top:244px;width:799px;height:505px;border-radius:19px;overflow:hidden}
+  .thanks-pic img{width:100%;height:100%;object-fit:cover;display:block}
+  html.pdf #nav,html.pdf .sl-nav{display:none}
+  html.pdf *{transition:none!important;animation:none!important}
+  /* ---------- navigation ---------- */
+  #nav{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:20;display:flex;align-items:center;gap:10px;background:var(--dark);color:#fff;border-radius:999px;padding:8px 12px;box-shadow:0 8px 28px rgba(0,0,0,.22);opacity:0;transition:opacity .3s}
+  body:hover #nav,#nav:focus-within,body.nav-on #nav{opacity:1}
+  #nav .arrow{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s}
+  #nav .arrow:hover{background:rgba(255,255,255,.14)}
+  #nav .arrow:disabled{opacity:.3;cursor:default}
+  #nav .arrow svg{width:18px;height:18px}
+  #nav .dots{display:flex;gap:7px;padding:0 6px}
+  #nav .dots button{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.35);transition:all .25s;padding:0}
+  #nav .dots button:hover{background:rgba(255,255,255,.7)}
+  #nav .dots button.on{background:#fff;width:26px;border-radius:6px}
+  #nav .count{font-size:14px;opacity:.7;min-width:44px;text-align:center;font-variant-numeric:tabular-nums}
+  #nav .sep{width:1px;height:22px;background:rgba(255,255,255,.2)}
+</style>
+</head>
+<body>
+
+<div id="skybg"></div>
+<div id="stage">
+  <div class="grid" aria-hidden="true">
+    <i class="v" style="left:64px"></i><i class="v" style="left:392px"></i><i class="v" style="left:721px"></i><i class="v" style="left:1049px"></i><i class="v" style="left:1377px"></i>
+    <i class="h" style="top:179px"></i><i class="h" style="top:418px"></i><i class="h" style="top:657px"></i><i class="h" style="top:895px"></i>
+  </div>
+
+  <!-- ============ 1. КТО Я ============ -->
+  <section class="slide" data-title="Кто я">
+    <h1 class="s1-name rise" style="--i:0">Rina Abdrakhmanova<br><i>UI/</i>UX /Product Designer</h1>
+    <div class="s1-block rise" style="--i:2;top:516px"><div class="lab">Фокус</div><p>Проектирование сложных сценариев, улучшение UX/CX, архитектура взаимодействия, выходящая за пределы приложения</p></div>
+    <div class="intro-pic rise" style="--i:1"><img src="assets/ozon/intro.jpg" alt=""></div>
+    <div class="s1-block rise" style="--i:3;top:688px"><div class="lab">Опыт</div>
+      <ul class="b" style="width:389px"><li>Запуск и редизайн продуктовых фич</li><li>Пользовательские интервью и юзабилити-тесты</li><li>Взаимодействие на стыке приложения и физических устройств</li></ul></div>
+  </section>
+
+  <!-- ============ 2. УВЕДОМЛЕНИЯ: ПРОБЛЕМА ============ -->
+  <section class="slide" data-title="Уведомления: проблема" data-noanim>
+    <div class="left">
+      <div class="head rise" style="--i:0"><h1>Уведомления в приложении</h1><p>Очень важная система, где клиенты узнают о сбоях на устройствах</p></div>
+      <div class="mid rise" style="--i:1;--mid:104px"><div class="lab">Боли пользователей</div>
+        <ul class="b">
+          <li>Все разделы помечены красной точкой, <span class="r">нет приоритета</span></li>
+          <li>В карточке <span class="r">не видно</span>, что случилось и с каким устройством</li>
+          <li><span class="r">Сложно приоритизировать</span> и разобраться в проблемах на устройствах</li>
+        </ul></div>
+      <div class="cards rise" style="--i:2"><div class="card"><div><div class="k">Откуда узнали:</div><div class="v">В интервью с бизнесом о новом приложении многие сами просили уведомления о поломках</div></div></div></div>
+    </div>
+    <div class="panel rise" style="--i:1">
+      <div class="old"><img src="assets/ozon/old-inbox.png" alt="Старый экран «Сообщения»"></div>
+    </div>
+  </section>
+
+  <!-- ============ 3. УВЕДОМЛЕНИЯ: РЕЗУЛЬТАТ ============ -->
+  <section class="slide" data-title="Уведомления: результат" data-noanim>
+    <div class="left">
+      <div class="head rise" style="--i:0"><h1>Уведомления: что улучшили</h1><p>Видно, что пришло, когда и сколько нового</p></div>
+      <div class="mid rise" style="--i:1;--mid:66px"><div class="lab">Что улучшили</div>
+        <ul class="b">
+          <li><span class="g">Превью</span> последнего сообщения в каждом разделе</li>
+          <li><span class="g">Счётчик</span> непрочитанных вместо красной точки</li>
+          <li><span class="g">Время</span> сообщения видно сразу</li>
+          <li><span class="g">Акции и рефералы</span> в отдельных разделах</li>
+        </ul></div>
+      <div class="cards rise" style="--i:2"><div class="card">
+        <div><div class="k">Результат:</div><div class="v">Запущено, много положительных отзывов. Ошибок оборудования много, поэтому важно узнавать о них вовремя: от этого зависит прибыль владельца</div></div></div><div class="card"><div><div class="k">Как бы я измеряла:</div><div class="v">Время от отправки уведомления о сбое до его прочтения, длительность простоя устройства</div></div></div></div>
+    </div>
+    <div class="panel rise" style="--i:1">
+      <div class="pw"><div class="phone">
+        <div class="ph-top">
+          <div class="ph-time">9:41</div>
+          <svg class="ph-levels" viewBox="0 0 143 54" fill="none"><rect opacity="0.35" x="83.5" y="23.5" width="24" height="12" rx="3.8" stroke="#24232D"/><path opacity="0.4" d="M109 27.7812V31.8567C109.805 31.5116 110.328 30.7086 110.328 29.819C110.328 28.9294 109.805 28.1264 109 27.7812Z" fill="#24232D"/><rect x="85" y="25" width="21" height="9" rx="2.5" fill="#24232D"/><path fill-rule="evenodd" clip-rule="evenodd" d="M67.2705 26.104C69.7576 26.1041 72.1496 27.0262 73.9521 28.6796C74.0879 28.8073 74.3048 28.8057 74.4385 28.676L75.736 27.4126C75.8037 27.3468 75.8414 27.2577 75.8409 27.165C75.8403 27.0724 75.8015 26.9837 75.733 26.9187C71.002 22.544 63.5383 22.544 58.8073 26.9187C58.7387 26.9837 58.6999 27.0723 58.6992 27.165C58.6986 27.2577 58.7363 27.3468 58.8039 27.4126L60.1018 28.676C60.2354 28.8059 60.4525 28.8075 60.5881 28.6796C62.3909 27.0261 64.7832 26.104 67.2705 26.104ZM67.2672 30.3243C68.6245 30.3242 69.9334 30.8359 70.9395 31.76C71.0756 31.8912 71.2899 31.8883 71.4226 31.7536L72.7099 30.4343C72.7777 30.3651 72.8153 30.2712 72.8143 30.1737C72.8133 30.0761 72.7738 29.9831 72.7047 29.9153C69.6408 27.0244 64.8961 27.0244 61.8323 29.9153C61.7631 29.9831 61.7236 30.0762 61.7227 30.1738C61.7218 30.2714 61.7595 30.3652 61.8274 30.4343L63.1143 31.7536C63.247 31.8883 63.4614 31.8912 63.5974 31.76C64.6029 30.8365 65.9107 30.3248 67.2672 30.3243ZM69.7916 33.1178C69.7935 33.2232 69.7565 33.3247 69.6892 33.3985L67.5125 35.8533C67.4487 35.9254 67.3617 35.966 67.2709 35.966C67.1802 35.966 67.0932 35.9254 67.0294 35.8533L64.8523 33.3985C64.7851 33.3247 64.7481 33.2231 64.7501 33.1177C64.7521 33.0124 64.7929 32.9126 64.8629 32.842C66.253 31.5281 68.2889 31.5281 69.679 32.842C69.7489 32.9127 69.7897 33.0125 69.7916 33.1178Z" fill="#24232D"/><path fill-rule="evenodd" clip-rule="evenodd" d="M51.2 24.6819C51.2 24.0488 50.7224 23.5356 50.1333 23.5356H49.0667C48.4776 23.5356 48 24.0488 48 24.6819V34.6158C48 35.2489 48.4776 35.7621 49.0667 35.7621H50.1333C50.7224 35.7621 51.2 35.2489 51.2 34.6158V24.6819ZM43.7659 25.9809H44.8326C45.4217 25.9809 45.8992 26.5064 45.8992 27.1547V34.5883C45.8992 35.2366 45.4217 35.7621 44.8326 35.7621H43.7659C43.1768 35.7621 42.6992 35.2366 42.6992 34.5883V27.1547C42.6992 26.5064 43.1768 25.9809 43.7659 25.9809ZM39.4341 28.63H38.3674C37.7783 28.63 37.3008 29.1622 37.3008 29.8187V34.5734C37.3008 35.2299 37.7783 35.762 38.3674 35.762H39.4341C40.0232 35.762 40.5008 35.2299 40.5008 34.5734V29.8187C40.5008 29.1622 40.0232 28.63 39.4341 28.63ZM34.1333 31.0753H33.0667C32.4776 31.0753 32 31.5999 32 32.247V34.5904C32 35.2375 32.4776 35.7621 33.0667 35.7621H34.1333C34.7224 35.7621 35.2 35.2375 35.2 34.5904V32.247C35.2 31.5999 34.7224 31.0753 34.1333 31.0753Z" fill="#24232D"/></svg>
+          <div class="ph-av"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="3.33333" cy="3.33333" r="3.33333" transform="matrix(-1 0 0 1 13.3333 2.5)" stroke="#24232D" stroke-width="1.5"/><path d="M4.16663 14.1124C4.16663 13.3954 4.61734 12.7559 5.29254 12.5147C8.33666 11.4275 11.6633 11.4275 14.7074 12.5147C15.3826 12.7559 15.8333 13.3954 15.8333 14.1124V15.2086C15.8333 16.1982 14.9569 16.9583 13.9773 16.8184L13.6507 16.7717C11.2292 16.4258 8.77076 16.4258 6.34923 16.7717L6.02263 16.8184C5.04305 16.9583 4.16663 16.1982 4.16663 15.2086V14.1124Z" stroke="#24232D" stroke-width="1.5"/></svg></div>
+          <div class="ph-pill">ИП Водоматы<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 6L8 11L13 6" stroke="#222222" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <svg class="bell" viewBox="0 0 24 24" fill="none"><path d="M5.26879 10.4998C5.26879 9.61584 5.4429 8.74054 5.78118 7.92387C6.11946 7.10719 6.61528 6.36515 7.24033 5.74009C7.86539 5.11504 8.60743 4.61922 9.42411 4.28094C10.2408 3.94266 11.1161 3.76855 12 3.76855C12.884 3.76855 13.7593 3.94266 14.576 4.28094C15.3927 4.61922 16.1347 5.11504 16.7598 5.74009C17.3848 6.36515 17.8806 7.10719 18.2189 7.92387C18.5572 8.74054 18.7313 9.61584 18.7313 10.4998V10.4998C18.7313 13.8561 19.4344 15.8061 20.0532 16.8748C20.1189 16.9886 20.1535 17.1177 20.1537 17.2491C20.1538 17.3806 20.1193 17.5097 20.0538 17.6237C19.9883 17.7376 19.894 17.8323 19.7804 17.8983C19.6667 17.9644 19.5377 17.9993 19.4063 17.9998H4.59379C4.46237 17.9993 4.33337 17.9644 4.21972 17.8983C4.10607 17.8323 4.01177 17.7376 3.94626 17.6237C3.88074 17.5097 3.84632 17.3806 3.84644 17.2491C3.84655 17.1177 3.8812 16.9886 3.94692 16.8748C4.56567 15.8061 5.26879 13.8561 5.26879 10.4998Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 18V18.75C9 19.5456 9.31607 20.3087 9.87868 20.8713C10.4413 21.4339 11.2044 21.75 12 21.75C12.7956 21.75 13.5587 21.4339 14.1213 20.8713C14.6839 20.3087 15 19.5456 15 18.75V18" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M17.1938 2.25C18.7209 3.21395 19.9534 4.57938 20.7563 6.19687" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.24365 6.19687C4.04664 4.57938 5.2791 3.21395 6.80615 2.25" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <i class="badge dot" id="badge"></i>
+        </div>
+        <div class="ph-title"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M15 19.5L7.5 12L15 4.5" stroke="#24232D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Сообщения</span></div>
+
+        <div class="card12" style="top:175px;height:64px"><div class="irow" style="top:0;height:64px">
+          <div class="ico" style="background:#31A456;top:16px"><svg width="20" height="20"><use href="#i-support"/></svg></div>
+          <div class="tt" style="top:21px">Поддержка</div></div></div>
+
+        <div class="card12" style="top:255px;height:360px">
+          <div class="irow" style="top:0"><div class="ico" style="background:#C85757"><svg width="20" height="20"><use href="#i-bell"/></svg></div>
+            <div class="tt">Уведомления</div><div class="pv">Плановые техработы 14 сентября</div><div class="tm solo">Вчера</div></div>
+          <div class="sep" style="top:72px"></div>
+          <div class="irow" style="top:72px"><div class="ico" style="background:#457454"><svg width="20" height="20"><use href="#i-sub"/></svg></div>
+            <div class="tt">Подписка</div><div class="pv" id="p-sub">Подписка приостановлена, оплатите счёт</div><div class="tm" id="t-sub">10:18</div><i class="ib on" id="b-sub">1</i></div>
+          <div class="sep" style="top:144px"></div>
+          <div class="irow" style="top:144px"><div class="ico" style="background:#504F57"><svg width="20" height="20"><use href="#i-dev"/></svg></div>
+            <div class="tt">Устройства</div><div class="pv" id="p-dev">3 устройства офлайн</div><div class="tm" id="t-dev">09:57</div><i class="ib on" id="b-dev">2</i></div>
+          <div class="sep" style="top:216px"></div>
+          <div class="irow" style="top:216px"><div class="ico" style="background:#DD8116"><svg width="20" height="20"><use href="#i-promo"/></svg></div>
+            <div class="tt">Акции</div><div class="pv" id="p-promo">Скидка 20 % на модуль HAC</div><div class="tm" id="t-promo">11:32</div><i class="ib on" id="b-promo">1</i></div>
+          <div class="sep" style="top:288px"></div>
+          <div class="irow" style="top:288px"><div class="ico" style="background:#2E8B7A"><svg width="20" height="20"><use href="#i-ref"/></svg></div>
+            <div class="tt">Реферальная программа</div><div class="pv" id="p-ref">Начислено 40 480 баллов за друга</div><div class="tm" id="t-ref">12:05</div><i class="ib on" id="b-ref">1</i></div>
+        </div>
+        <div class="home"></div>
+      </div></div>
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <symbol id="i-support" viewBox="0 0 20 20" fill="none"><path d="M3.54684 13.8279C2.61628 12.2579 2.29079 10.4023 2.63146 8.60931C2.97213 6.81633 3.95553 5.20936 5.39706 4.09007C6.83859 2.97078 8.6391 2.41615 10.4606 2.5303C12.2821 2.64446 13.9992 3.41954 15.2897 4.71005C16.5802 6.00055 17.3553 7.71773 17.4695 9.53921C17.5836 11.3607 17.029 13.1612 15.9097 14.6027C14.7904 16.0442 13.1834 17.0277 11.3905 17.3683C9.5975 17.709 7.74183 17.3835 6.17184 16.4529L3.57809 17.1873C3.47182 17.2184 3.35915 17.2203 3.25189 17.1929C3.14462 17.1654 3.04671 17.1097 2.96842 17.0314C2.89013 16.9531 2.83434 16.8552 2.8069 16.7479C2.77946 16.6406 2.78139 16.528 2.81247 16.4217L3.54684 13.8279Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.8828 14.375C11.0605 14.3771 10.2458 14.2166 9.48563 13.9029C8.72547 13.5891 8.0348 13.1282 7.45329 12.5467C6.87179 11.9652 6.41092 11.2746 6.09717 10.5144C5.78341 9.75424 5.62296 8.93957 5.62502 8.1172C5.62709 7.5384 5.85847 6.984 6.26848 6.57546C6.67849 6.16691 7.23371 5.93751 7.81252 5.93752V5.93752C7.90802 5.93675 8.00195 5.96175 8.08444 6.00987C8.16693 6.05799 8.23493 6.12745 8.28127 6.21095L9.19533 7.8047C9.24969 7.90159 9.27759 8.01107 9.27621 8.12216C9.27484 8.23324 9.24425 8.342 9.18752 8.43752L8.45314 9.66408C8.8293 10.5009 9.49917 11.1707 10.336 11.5469L11.5625 10.8125C11.658 10.7558 11.7668 10.7252 11.8779 10.7238C11.989 10.7225 12.0984 10.7503 12.1953 10.8047L13.7891 11.7188C13.8726 11.7651 13.942 11.8331 13.9902 11.9156C14.0383 11.9981 14.0633 12.092 14.0625 12.1875C14.0605 12.7657 13.8304 13.3197 13.4223 13.7293C13.0142 14.1389 12.461 14.3709 11.8828 14.375V14.375Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+        <symbol id="i-bell" viewBox="0 0 20 20" fill="none"><path d="M4.39062 8.75C4.39062 8.01337 4.53571 7.28395 4.81761 6.60339C5.09951 5.92282 5.51269 5.30445 6.03357 4.78357C6.55445 4.26269 7.17282 3.84951 7.85338 3.56761C8.53394 3.28572 9.26336 3.14062 10 3.14062C10.7366 3.14062 11.4661 3.28572 12.1466 3.56761C12.8272 3.84951 13.4455 4.26269 13.9664 4.78357C14.4873 5.30445 14.9005 5.92282 15.1824 6.60339C15.4643 7.28395 15.6094 8.01337 15.6094 8.75V8.75C15.6094 11.5469 16.1953 13.1719 16.7109 14.0625C16.7657 14.1574 16.7946 14.2649 16.7947 14.3745C16.7948 14.484 16.7661 14.5916 16.7115 14.6865C16.6569 14.7815 16.5783 14.8604 16.4836 14.9154C16.3889 14.9705 16.2814 14.9996 16.1719 15H3.82812C3.7186 14.9996 3.6111 14.9705 3.51639 14.9154C3.42169 14.8604 3.3431 14.7815 3.28851 14.6865C3.23391 14.5916 3.20523 14.484 3.20532 14.3745C3.20542 14.2649 3.2343 14.1574 3.28906 14.0625C3.80468 13.1719 4.39062 11.5469 4.39062 8.75Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.5 15V15.625C7.5 16.288 7.76339 16.9239 8.23223 17.3928C8.70107 17.8616 9.33696 18.125 10 18.125C10.663 18.125 11.2989 17.8616 11.7678 17.3928C12.2366 16.9239 12.5 16.288 12.5 15.625V15" stroke="white" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.3281 1.875C15.6007 2.67829 16.6277 3.81615 17.2969 5.16406" stroke="white" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.70312 5.16406C3.37228 3.81615 4.39933 2.67829 5.67188 1.875" stroke="white" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+        <symbol id="i-sub" viewBox="0 0 20 20" fill="none"><path d="M4.16663 2.9165H15.8333V15.8821C15.8333 16.7124 14.8799 17.181 14.2225 16.6739L13.475 16.0972C13.1402 15.839 12.6791 15.8192 12.3234 16.0478L11.0815 16.8462C10.4227 17.2698 9.57726 17.2698 8.91844 16.8462L7.67649 16.0478C7.3208 15.8192 6.85973 15.839 6.52493 16.0972L5.77743 16.6739C5.12 17.181 4.16663 16.7124 4.16663 15.8821V2.9165Z" stroke="white"/><path d="M7.5 7.91667H10" stroke="white" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.5 2.91667H17.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.5 11.2502H10" stroke="white" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.5 7.91667H12.9167" stroke="white" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.5 11.2502H12.9167" stroke="white" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+        <symbol id="i-dev" viewBox="0 0 20 20" fill="none"><rect x="1.66663" y="17.4995" width="8.33333" height="16.6667" rx="3" transform="rotate(-90 1.66663 17.4995)" stroke="white"/><circle cx="15" cy="13.3332" r="0.833333" transform="rotate(-90 15 13.3332)" fill="white"/><path d="M11.8014 5.3208C11.3069 5.11386 10.7641 4.99954 10.1945 4.99954C9.65714 4.99954 9.14353 5.10131 8.67187 5.28663" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M6.66663 3.28165C7.73797 2.78012 8.93355 2.49993 10.1946 2.49993C11.4872 2.49993 12.7111 2.79436 13.8029 3.31982" stroke="white" stroke-width="1.5" stroke-linecap="round"/></symbol>
+        <symbol id="i-promo" viewBox="0 0 20 20" fill="none"><path d="M11.875 6.25V15.9141C11.8741 16.0179 11.8993 16.1204 11.9485 16.2119C11.9977 16.3034 12.0691 16.381 12.1563 16.4375L13.0157 17.0078C13.0989 17.0634 13.1943 17.0982 13.2938 17.1092C13.3933 17.1202 13.494 17.1072 13.5874 17.0712C13.6808 17.0352 13.7642 16.9774 13.8306 16.9024C13.8969 16.8275 13.9443 16.7377 13.9688 16.6406L15 12.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 12.4999C15.8288 12.4999 16.6237 12.1707 17.2097 11.5846C17.7958 10.9986 18.125 10.2037 18.125 9.37493C18.125 8.54613 17.7958 7.75127 17.2097 7.16522C16.6237 6.57917 15.8288 6.24993 15 6.24993H11.875C11.875 6.24993 7.61719 6.24993 3.52344 2.82024C3.43238 2.74489 3.32183 2.69691 3.20461 2.68185C3.08738 2.66679 2.96829 2.68528 2.86115 2.73517C2.75401 2.78506 2.66321 2.86431 2.59929 2.96372C2.53536 3.06313 2.50094 3.17862 2.5 3.29681V15.4531C2.50094 15.5712 2.53536 15.6867 2.59929 15.7861C2.66321 15.8856 2.75401 15.9648 2.86115 16.0147C2.96829 16.0646 3.08738 16.0831 3.20461 16.068C3.32183 16.053 3.43238 16.005 3.52344 15.9296C7.61719 12.4999 11.875 12.4999 11.875 12.4999H15Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+        <symbol id="i-ref" viewBox="0 0 20 20" fill="none"><path d="M12.0834 9.1665H16.6667V14.3332C16.6667 16.5423 14.8758 18.3332 12.6667 18.3332H7.33337C5.12423 18.3332 3.33337 16.5423 3.33337 14.3332V9.1665H7.91671" stroke="white" stroke-width="1.5"/><path d="M13.75 9.16667H16C16.8284 9.16667 17.5 8.49509 17.5 7.66667V6.5C17.5 5.67157 16.8284 5 16 5H4C3.17157 5 2.5 5.67157 2.5 6.5V7.66667C2.5 8.49509 3.17157 9.16667 4 9.16667H6.25" stroke="white" stroke-width="1.5"/><path d="M10 3.74984C10 2.59924 10.9327 1.6665 12.0833 1.6665H12.5C13.4205 1.6665 14.1667 2.4127 14.1667 3.33317C14.1667 4.25365 13.4205 4.99984 12.5 4.99984H10V3.74984Z" stroke="white" stroke-width="1.5"/><path d="M10 3.74984C10 2.59924 9.06726 1.6665 7.91667 1.6665H7.5C6.57953 1.6665 5.83333 2.4127 5.83333 3.33317C5.83333 4.25365 6.57953 4.99984 7.5 4.99984H10V3.74984Z" stroke="white" stroke-width="1.5"/><path d="M12.0834 5L12.0834 18.3333L7.91671 18.3333L7.91671 5L12.0834 5Z" stroke="white" stroke-width="1.5"/></symbol>
+      </svg>
+    </div>
+  </section>
+
+<!-- ============ 4. KYC: ПРОБЛЕМА ============ -->
+  <section class="slide" data-title="KYC: проблема" data-noanim>
+    <div class="left">
+      <div class="head rise" style="--i:0"><h1>KYC-документы</h1><p>Проверка была, но процесс запутанный: ошибки и повторные загрузки</p></div>
+      <div class="mid rise" style="--i:1;--mid:120px"><div class="lab">Боли пользователей</div>
+        <ul class="b">
+          <li>Единая вкладка <span class="r">не различала</span> типы документов</li>
+          <li>Статус документа <span class="r">нигде не виден</span></li>
+          <li>У каждой роли своя логика, <span class="r">общей картины нет</span></li>
+          <li>Одобряли <span class="r">либо все, либо ничего</span></li>
+        </ul></div>
+      <div class="cards rise" style="--i:2"><div class="card"><div><div class="k">Откуда узнали:</div><div class="v">Интервью с менеджерами, комплаенсом и операционной командой, разбор текущего интерфейса</div></div></div></div>
+    </div>
+    <div class="panel rise" style="--i:1">
+      <div class="mock" style="left:42px;top:152px"><img src="assets/ozon/kyc-before.png" alt="Макет до"><i class="mask"></i><i class="mark"></i></div>
+    </div>
+  </section>
+
+  <!-- ============ 5. KYC: РЕЗУЛЬТАТ ============ -->
+  <section class="slide" data-title="KYC: результат" data-noanim>
+    <div class="left">
+      <div class="head rise" style="--i:0"><h1>KYC: что улучшили</h1><p>Прозрачный документооборот для четырёх ролей</p></div>
+      <div class="mid rise" style="--i:1;--mid:40px"><div class="lab">Что улучшили</div>
+        <ul class="b">
+          <li>Добавили <span class="g">вкладки</span>: интерфейс стал чище, сразу понятно, в каком статусе какой документ, скроллить не нужно</li>
+          <li>Одобрить документ можно <span class="g">быстро</span>, отклонение убрали в меню</li>
+          <li>Теперь менеджеры <span class="g">пишут причину отказа</span>, чтобы другая сторона быстрее заменила документ</li>
+          <li>Раньше одобряли либо все, либо ничего. Теперь можно <span class="g">одобрять по очереди</span>, если часть документов в порядке</li>
+        </ul></div>
+      <div class="cards rise" style="--i:2">
+        <div class="card"><div><div class="k">Результат:</div><div class="v">Меньше жалоб и ошибок от пользователей</div></div></div>
+        <div class="card"><div><div class="k">Как бы я измеряла:</div><div class="v">Доля повторных загрузок, время обработки</div></div></div>
+      </div>
+    </div>
+    <div class="panel rise" style="--i:1">
+      <div class="mock live" id="kycMock" style="left:42px;top:152px"><iframe id="kycFrame" title="Прототип «Документы»" src="tangible-documents.html"></iframe></div>
+    </div>
+  </section>
+
+  <!-- ============ 6. БАРЫ: ПРОБЛЕМА ============ -->
+  <section class="slide" data-title="Бары: проблема">
+    <div class="left">
+      <div class="head rise" style="--i:0"><h1>Приложение для походов в бар</h1><p>Работало хорошо, но не вызывало эмоций</p></div>
+      <div class="mid rise" style="--i:1;--mid:120px"><div class="lab">Проблема</div>
+        <ul class="b">
+          <li>Приложение работало, но <span class="r">ощущения праздника не было</span></li>
+          <li><span class="r">Не было предвкушения</span> вечера</li>
+        </ul></div>
+      <div class="cards rise" style="--i:2"><div class="card"><div><div class="k">Задача:</div><div class="v">Не починить сломанное, а добавить эмоцию там, где её не хватает, не усложняя и не захламляя интерфейс</div></div></div></div>
+    </div>
+    <div class="panel rise" style="--i:1"><div class="pb-row"><div class="pb"><img src="assets/ozon/bars-before.png" alt="Главный экран"></div><div class="pb"><img src="assets/ozon/bars-before-2.png" alt="Карта"></div><div class="pb"><img src="assets/ozon/bars-before-3.png" alt="Страница заведения"></div></div></div>
+  </section>
+
+  <!-- ============ 7. БАРЫ: ИССЛЕДОВАНИЕ ============ -->
+  <section class="slide" data-title="Бары: исследование">
+    <div class="left">
+      <div class="head rise" style="--i:0"><h1>Исследование: охота за вдохновением</h1><p>Вместо анализа конкурентов: всё, что вызывает эмоцию</p></div>
+      <div class="mid rise" style="--i:1;--mid:100px"><div class="lab">Как делали</div>
+        <ul class="b">
+          <li>Собирали референсы из игр, видео, Pinterest и чужих продуктов</li>
+          <li>К каждому описывали, что вызывает эмоцию и почему</li>
+          <li>Сгруппировали по 8 категориям анимации</li>
+        </ul></div>
+      <div class="cards rise" style="--i:2"><div class="card"><div><div class="k">Вывод:</div><div class="v">Лучшие идеи пришли из игр и видео, а не из других приложений для баров</div></div></div></div>
+    </div>
+    <div class="panel rise" style="--i:1">
+      <div class="tile" style="left:20px;top:20px"><div class="gl g1"><div class="o"><i></i></div><div class="s"></div></div><span>Статичные</span></div>
+      <div class="tile" style="left:417px;top:20px"><div class="gl g2"><b></b><b></b><b></b></div><span>Появления</span></div>
+      <div class="tile" style="left:20px;top:205px"><div class="gl g3"><div class="b"></div></div><span>Взаимодействия</span></div>
+      <div class="tile" style="left:417px;top:205px"><div class="gl g4"><i></i><i></i></div><span>Интерактивные</span></div>
+      <div class="tile" style="left:20px;top:390px"><div class="gl g5"><div class="sw"></div></div><span>Смена состояний</span></div>
+      <div class="tile" style="left:417px;top:390px"><div class="gl g6"><div class="sl"><b></b><b></b></div></div><span>Переходы между экранами</span></div>
+      <div class="tile" style="left:20px;top:575px"><div class="gl g7"><div class="d"></div></div><span>Эффекты фокуса</span></div>
+      <div class="tile" style="left:417px;top:575px"><div class="gl g8"><div class="pin"></div><div class="sh"></div></div><span>Эффекты для карты</span></div>
+    </div>
+  </section>
+
+  <!-- ============ 8. БАРЫ: ИДЕИ И РЕЗУЛЬТАТ ============ -->
+  <section class="slide" data-title="Бары: идеи и результат" data-enter="bars">
+    <div class="left">
+      <div class="head rise" style="--i:0"><h1>Идеи и результат</h1><p><b style="font-weight:400" data-count="30">0</b> идей → <b style="font-weight:400" data-count="10">0</b> микровзаимодействий → <b style="font-weight:400" data-count="5">0</b> анимаций → <b style="font-weight:400" data-count="4">0</b> пасхалки</p></div>
+      <div class="mid rise" style="--i:1;--mid:66px"><div class="lab">Что получилось</div>
+        <ul class="b">
+          <li>Лучшая идея «бутылочка»: <span class="g">потряси телефон</span>, и она укажет бар</li>
+          <li><span class="g">Слой эмоции</span> поверх работающего продукта</li>
+          <li>Выбор бара стал <span class="g">маленьким общим приключением</span></li>
+        </ul></div>
+      <div class="cards rise" style="--i:2">
+        <div class="card"><div><div class="k">Результат:</div><div class="v">Микровзаимодействия и бутылочка вошли в продукт</div></div></div>
+        <div class="card"><div><div class="k">Как бы я измеряла:</div><div class="v">Доля сессий, в которых пользователь выбрал бар или создал приглашение, и число новых пользователей, пришедших по приглашениям</div></div></div>
+      </div>
+    </div>
+    <div class="panel rise" style="--i:1">
+      <div class="sl" id="sl1"><div class="spin"><iframe src="spin-deck.html" title="Прототип «бутылочка»"></iframe></div></div>
+      <div class="sl off" id="sl2">
+        <div class="acard stars" style="left:20px;top:20px"><div class="at">30 концептов</div><div class="av"><iframe data-src="stars-deck.html" title="Звёзды"></iframe></div></div>
+        <div class="acard heart" style="left:417px;top:20px"><div class="at">10 микровзаимодействий</div><div class="av"><iframe data-src="pour-heart.html" title="Налить"></iframe></div></div>
+        <div class="acard pin" style="left:20px;top:365px"><div class="at">5 авторских анимаций</div><div class="av"><iframe data-src="pin-select.html" title="Выбор заведения"></iframe></div></div>
+        <div class="acard cap" style="left:417px;top:365px"><div class="at">4 пасхалки</div><div class="av"><iframe data-src="cap-flip.html" title="Избранное"></iframe></div></div>
+      </div>
+      <div class="sl-nav"><button id="slPrev" aria-label="Назад">‹</button><span id="slCount">1 / 2</span><button id="slNext" aria-label="Вперёд">›</button></div>
+    </div>
+  </section>
+
+  <!-- ============ В ЦИФРАХ ============ -->
+  <section class="slide s-sky" data-title="В цифрах">
+    <div class="sky"></div>
+    <div class="grid" aria-hidden="true">
+    <i class="v" style="left:64px"></i><i class="v" style="left:392px"></i><i class="v" style="left:721px"></i><i class="v" style="left:1049px"></i><i class="v" style="left:1377px"></i>
+    <i class="h" style="top:179px"></i><i class="h" style="top:418px"></i><i class="h" style="top:657px"></i><i class="h" style="top:895px"></i>
+  </div>
+    <p class="big rise" style="--i:0;top:194px"><em>5+</em> лет опыта</p>
+    <p class="big w rise" style="--i:1;top:290px"><em>20+</em> диджитал-проектов, среди которых проекты для Heineken, Visa, Tumodo, BSPK, Kobil, Cushion и другие</p>
+    <p class="big rise" style="--i:2;top:499px"><em>4</em> ленты на беханс</p>
+    <p class="big rise" style="--i:3;top:596px"><em>1</em> котик</p>
+    <div class="cat rise" style="--i:3"><img src="assets/ozon/cat.jpg" alt=""></div>
+  </section>
+
+  <!-- ============ СПАСИБО ============ -->
+  <section class="slide" data-title="Спасибо">
+    <h1 class="thanks-title rise" style="--i:0">Спасибо!</h1>
+    <div class="thanks-pic rise" style="--i:1"><img src="assets/ozon/thanks.jpg" alt=""></div>
+  </section>
+</div>
+
+<div id="nav" role="navigation" aria-label="Слайды">
+  <button class="arrow" id="prev" aria-label="Назад"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <div class="dots" id="dots"></div>
+  <span class="count" id="count">1 / 8</span>
+  <button class="arrow" id="next" aria-label="Вперёд"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+  <span class="sep"></span>
+  <button class="arrow" id="fs" aria-label="Полный экран"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+</div>
+
+<script>
+(function(){
+  var PDF=/[?&]pdf=1/.test(location.search); if(PDF) document.documentElement.classList.add('pdf');
+  var stage=document.getElementById('stage');
+  var slides=Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var dotsEl=document.getElementById('dots'), cur=-1;
+  var $=function(id){return document.getElementById(id);};
+
+  function fit(){var s=Math.min(innerWidth/1440,innerHeight/896);stage.style.transform='translate(-50%,-50%) scale('+s+')';}
+  addEventListener('resize',fit);fit();setInterval(fit,400);
+
+  slides.forEach(function(sl,i){var b=document.createElement('button');b.setAttribute('aria-label',(i+1)+'. '+sl.dataset.title);b.title=sl.dataset.title;b.addEventListener('click',function(){go(i);});dotsEl.appendChild(b);});
+
+  var hooks={
+    bars:{enter:function(){countUp();setSl(0);}}
+  };
+  function go(i){
+    if(i<0||i>=slides.length||i===cur)return;
+    if(cur>=0){var o=hooks[slides[cur].dataset.enter];if(o&&o.leave)o.leave();slides[cur].classList.remove('active');}
+    cur=i;slides[i].classList.add('active');
+    document.body.classList.toggle('skyon',slides[i].classList.contains('s-sky'));
+    var h=hooks[slides[i].dataset.enter];if(h&&h.enter)h.enter();
+    Array.prototype.forEach.call(dotsEl.children,function(d,k){d.classList.toggle('on',k===i);});
+    $('count').textContent=(i+1)+' / '+slides.length;
+    $('prev').disabled=i===0;$('next').disabled=i===slides.length-1;
+    try{history.replaceState(null,'','#'+(i+1));}catch(e){}
+  }
+  $('prev').addEventListener('click',function(){go(cur-1);});
+  $('next').addEventListener('click',function(){go(cur+1);});
+  $('fs').addEventListener('click',function(){if(!document.fullscreenElement){document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();}else{document.exitFullscreen&&document.exitFullscreen();}});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(cur+1);}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(cur-1);}
+    else if(e.key==='Home'){go(0);}else if(e.key==='End'){go(slides.length-1);}
+    else if(e.key==='f'||e.key==='F'){$('fs').click();}
+  });
+  var nt;document.addEventListener('mousemove',function(){document.body.classList.add('nav-on');clearTimeout(nt);nt=setTimeout(function(){document.body.classList.remove('nav-on');},2200);});
+
+  /* ---------- counters in the last slide's subtitle ---------- */
+  function countUp(){
+    if(PDF){Array.prototype.forEach.call(document.querySelectorAll('[data-count]'),function(el){el.textContent=el.dataset.count;});return;}
+    Array.prototype.forEach.call(document.querySelectorAll('[data-count]'),function(el,k){
+      var target=+el.dataset.count,start=null;el.textContent='0';
+      setTimeout(function(){(function step(ts){if(!start)start=ts;var p=Math.min(1,(ts-start)/900);el.textContent=Math.round(target*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(step);})(performance.now());},500+k*280);
+    });
+  }
+
+  function setSl(i){
+    $('sl1').classList.toggle('off',i!==0);$('sl2').classList.toggle('off',i!==1);
+    $('slCount').textContent=(i+1)+' / 2';
+    if(i===1){document.querySelectorAll('#sl2 iframe').forEach(function(f){if(!f.getAttribute('src'))f.src=f.dataset.src;});}
+  }
+  $('slPrev').addEventListener('click',function(){setSl(0);});
+  $('slNext').addEventListener('click',function(){setSl(1);});
+
+  document.querySelectorAll('#sl2 iframe').forEach(function(f){
+    f.addEventListener('load',function(){
+      try{var st=f.contentDocument.createElement('style');st.textContent='.hint{display:none!important}';f.contentDocument.head.appendChild(st);}catch(e){}
+    });
+  });
+
+  
+  function fromHash(){return Math.max(0,Math.min(slides.length-1,(parseInt(location.hash.slice(1),10)||1)-1));}
+  addEventListener('hashchange',function(){go(fromHash());});
+  go(fromHash());
+})();
+</script>
+</body>
+</html>
