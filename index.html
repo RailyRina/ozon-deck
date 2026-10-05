@@ -224,6 +224,8 @@
   #nav .dots button.on{background:#fff;width:26px;border-radius:6px}
   #nav .count{font-size:14px;opacity:.7;min-width:44px;text-align:center;font-variant-numeric:tabular-nums}
   #nav .sep{width:1px;height:22px;background:rgba(255,255,255,.2)}
+  /* no on-screen navigation: keys, swipe, presenter clicker */
+  #nav{display:none!important}
 </style>
 </head>
 <body>
@@ -516,6 +518,25 @@
   });
 
   
+  /* keys keep working after a click inside a prototype (same-origin iframes forward them) */
+  var NAVKEYS=['ArrowRight','ArrowLeft','PageDown','PageUp',' ','Home','End'];
+  document.querySelectorAll('iframe').forEach(function(f){
+    f.addEventListener('load',function(){
+      try{f.contentWindow.addEventListener('keydown',function(e){
+        if(NAVKEYS.indexOf(e.key)>=0){e.preventDefault();document.dispatchEvent(new KeyboardEvent('keydown',{key:e.key,bubbles:true}));}
+      });}catch(err){}
+    });
+  });
+  /* swipe left / right on touch screens */
+  (function(){
+    var x0=null,y0=null,t0=0;
+    document.addEventListener('touchstart',function(e){var t=e.changedTouches[0];x0=t.clientX;y0=t.clientY;t0=Date.now();},{passive:true});
+    document.addEventListener('touchend',function(e){
+      if(x0===null)return;var t=e.changedTouches[0],dx=t.clientX-x0,dy=t.clientY-y0;x0=null;
+      if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5&&Date.now()-t0<700){document.dispatchEvent(new KeyboardEvent('keydown',{key:dx<0?'ArrowRight':'ArrowLeft',bubbles:true}));}
+    },{passive:true});
+  })();
+
   function fromHash(){return Math.max(0,Math.min(slides.length-1,(parseInt(location.hash.slice(1),10)||1)-1));}
   addEventListener('hashchange',function(){go(fromHash());});
   go(fromHash());
