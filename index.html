@@ -523,6 +523,7 @@
   document.querySelectorAll('iframe').forEach(function(f){
     f.addEventListener('load',function(){
       try{f.contentWindow.addEventListener('keydown',function(e){
+        var tg=e.target; if(tg&&(tg.tagName==='INPUT'||tg.tagName==='TEXTAREA'||tg.tagName==='SELECT'||tg.isContentEditable)) return;
         if(NAVKEYS.indexOf(e.key)>=0){e.preventDefault();document.dispatchEvent(new KeyboardEvent('keydown',{key:e.key,bubbles:true}));}
       });}catch(err){}
     });
